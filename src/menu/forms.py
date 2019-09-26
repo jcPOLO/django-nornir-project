@@ -1,5 +1,5 @@
 from django import forms
-from .models import Menu
+from .models import Template
 
 MENU_OPTIONS = [
     ('1.', 'one'),
@@ -9,7 +9,7 @@ MENU_OPTIONS = [
 
 
 class MenuForm(forms.Form):
-    templates = forms.MultipleChoiceField(
+    content = forms.MultipleChoiceField(
         required=False,
         widget=forms.CheckboxSelectMultiple,
         choices=MENU_OPTIONS,

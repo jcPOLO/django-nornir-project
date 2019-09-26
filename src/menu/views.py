@@ -1,43 +1,20 @@
-from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
-from .models import Menu, Question, Choice
-from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
+from .models import Template
 from django.urls import reverse
-from django.views import generic
+from .forms import MenuForm
 
 
-class IndexView(generic.ListView):
-    template_name = 'menu/index.html'
-    context_object_name = 'latest_question_list'
+def menu(request):
+    templates = Template.objects.all()
 
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
+    if request.method == 'GET':
+        params = request.GET
+        for id, value in params.items():
+            if value == "on":
+                template = get_object_or_404(Template, id=id)
+                print(template)
 
-
-class DetailView(generic.DetailView):
-    model = Question
-    template_name = 'menu/detail.html'
-
-
-class ResultsView(generic.DetailView):
-    model = Question
-    template_name = 'menu/results.html'
-
-
-def vote(request, question_id):
-    question = get_object_or_404(Question, pk=question_id)
-    try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Choice.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'menu/detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('menu:results', args=(question.id,)))
+    context = {
+        'templates': templates,
+    }
+    return render(request, 'menu.html', context)

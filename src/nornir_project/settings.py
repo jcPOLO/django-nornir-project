@@ -37,10 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'menu',
-    'phonenumber_field',
+
+    'phone_field',
     'crispy_forms',
-    'tinymce',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

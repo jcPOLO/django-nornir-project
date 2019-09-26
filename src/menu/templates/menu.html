@@ -1,8 +1,17 @@
-<div class="custom-control custom-switch">
-  <input type="checkbox" class="custom-control-input" id="customSwitch1">
-  <label class="custom-control-label" for="customSwitch1">Toggle this switch element</label>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+  <div class="md-col-4 mt-4 mb-4 md-offset-4" id="menu">
+    <form method="GET" action=".">
+      {% for template in templates %}
+      <div class="custom-control custom-switch form-group">
+        <input type="checkbox" class="custom-control-input" id="switch-{{ template.id }}" name="{{ template.id }}">
+        <label class="custom-control-label" for="switch-{{ template.id }}">{{ template.title }}</label>
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Run</button>
+    </form>
+  </div>
 </div>
-<div class="custom-control custom-switch">
-  <input type="checkbox" class="custom-control-input" disabled id="customSwitch2">
-  <label class="custom-control-label" for="customSwitch2">Disabled switch element</label>
-</div>
+{% endblock content %}
