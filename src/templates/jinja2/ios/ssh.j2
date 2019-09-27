@@ -1,0 +1,13 @@
+!
+hostname {{ nr.host['hostname'] }}
+!
+ip domain-name {{ ini_vars['dns_domain'] }}
+!
+crypto key generate rsa
+y
+1024
+!
+line vty 0 4
+ no access-class 11 in
+ transport input all
+!
