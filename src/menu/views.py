@@ -12,7 +12,6 @@ def menu(request):
         for id, value in params.items():
             if value == "on":
                 template = get_object_or_404(Template, id=id)
-                print(template)
 
     context = {
         'templates': templates,

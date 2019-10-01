@@ -8,7 +8,7 @@ def is_valid_q(q):
 
 
 def search(request):
-    qs = Device.objects.all()
+    devices = Device.objects.all()
     model_types = ModelType.objects.all()
     hostname_contains_query = request.GET.get('hostname_contains')
     id_exact_query = request.GET.get('id_exact')
@@ -18,24 +18,20 @@ def search(request):
     model_type = request.GET.get('model_type')
 
     if is_valid_q(hostname_contains_query):
-        qs = qs.filter(hostname__icontains=hostname_contains_query)
+        devices = devices.filter(hostname__icontains=hostname_contains_query)
     elif is_valid_q(id_exact_query):
-        qs = qs.filter(id__exact=id_exact_query)
+        devices = devices.filter(id__exact=id_exact_query)
     elif is_valid_q(hostname_or_platform_query):
-        qs = qs.filter(Q(hostname__icontains=hostname_or_platform_query)
-                       | Q(platform__name__icontains=hostname_or_platform_query)
-                       ).distinct()
+        devices = devices.filter(Q(hostname__icontains=hostname_or_platform_query) | Q(platform__name__icontains=hostname_or_platform_query)).distinct()
     if is_valid_q(ip_address_min):
-        qs = qs.filter(ip_address__gte=ip_address_min)
-
+        devices = devices.filter(ip_address__gte=ip_address_min)
     if is_valid_q(ip_address_max):
-        qs = qs.filter(ip_address__lte=ip_address_max)
-
+        devices = devices.filter(ip_address__lte=ip_address_max)
     if is_valid_q(model_type):
-        qs = qs.filter(model_types__name=model_type)
+        devices = devices.filter(model_types__name=model_type)
 
     context = {
-        'queryset': qs,
+        'devices': devices,
         'model_types': model_types
     }
     return render(request, 'search.html', context)
