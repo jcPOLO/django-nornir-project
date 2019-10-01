@@ -82,26 +82,28 @@
 
     <div class="table-responsive">
       <table class="table table-sm display" id="devices_table">
-        <thread>
+        <thead>
           <tr>
+            <th> <
             <th scope="col">Hostname</th>
             <th scope="col">IP</th>
             <th scope="col">Platform</th>
             <th scope="col">Site</th>
-            <th scope="col">Serial</th>
+            {% comment %} <th scope="col">Serial</th> {% endcomment %}
             <th scope="col">telnet</th>
             <th scope="col">ssh</th>
             <th scope="col">Model</th>
           </tr>
-        </thread>
-        <tbody>
+        </thead>
+        <tbody id="devices-tbody">
         {% for device in devices %}
           <tr>
+            <td class="details-control" id="{{ device.id }}"></td>
             <td>{{ device.hostname }}</td>
             <td>{{ device.ip_address }}</td>
             <td>{{ device.platform.name }}</td>
             <td>{{ device.site }}</td>
-            <td>{{ device.serial }}</td>
+            {% comment %} <td>{{ device.serial }}</td> {% endcomment %}
             <td>{{ device.is_telnet }}</td>
             <td>{{ device.is_ssh }}</td>
             <td>
@@ -113,6 +115,7 @@
         {% endfor %}
         </tbody>
       </table>
+      <button id="button" class="btn-secondary btn">Selection</button>
     </div>
 </main>
 {% endblock content %}
